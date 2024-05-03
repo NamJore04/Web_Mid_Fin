@@ -61,7 +61,7 @@
         margin: 6px;
     }
 </style>
-
+<div class="admin-content-right">
 <div class="admin-content-right-product-add">
                 <h1>Sửa sản phẩm</h1>
                 <form action="" method="post" enctype="multipart/form-data">
@@ -86,10 +86,13 @@
                             }
                         ?>
                     </select>
+
                     
                     <label for="">Chọn loại sản phẩm<span style="color: red;">*</span></label>
                     <select name="brand_id" id="brand_id">
                         <option value="">--Chọn--</option>
+
+                        
 
                     </select>
                     <label for="">Giá sản phẩm<span style="color: red;">*</span></label>
@@ -97,7 +100,7 @@
                     <label for="">Giá khuyến mãi<span style="color: red;">*</span></label>
                     <input required type="text" name="product_price_new" placeholder="" value="<?php echo $result_product['product_price_new'] ?>">
                     <label for="">Mô tả sản phẩm<span style="color: red;">*</span></label> <br>
-                    <textarea name="product_desc" id="editor1" cols="30" rows="10" placeholder="" value="<?php echo $result_product['product_desc'] ?>"></textarea> 
+                    <textarea name="product_desc" class="editor" cols="30" rows="10" placeholder="" value="<?php echo $result_product['product_desc'] ?>"></textarea> 
                     <br>
                     <label for="">Ảnh sản phẩm<span style="color: red;">*</span></label>
                     <span style="color: red;"><?php if(isset($insert_product)) {
@@ -106,7 +109,7 @@
                     <input required multiple name="product_img" type="file">
                     <label for="">Ảnh mô tả<span style="color: red;">*</span></label>
                     <input required name="product_img_desc[]" multiple type="file">
-                    <button type="submit">Thêm</button>
+                    <button type="submit">Sửa</button>
                 </form>
             </div>
         </div>
@@ -115,11 +118,11 @@
 </body>
 <!-- <script src="https://example.com/ckfinder/ckfinder.js"></script> -->
 <script>
-        ClassicEditor
-            .create( document.querySelector( '#editor1' ) )
-            .catch( error => {
-                console.error( error );
-            } );
+        // ClassicEditor
+        //     .create( document.querySelector( '#editor1' ) )
+        //     .catch( error => {
+        //         console.error( error );
+        //     } );
 
 //             var editor = CKEDITOR.replace( 'editor1' );
 // CKFinder.setupCKEditor( editor );
