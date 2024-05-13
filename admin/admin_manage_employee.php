@@ -7,17 +7,28 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
-// Kiểm tra vai trò của người dùng
-if ($_SESSION['role'] !== 'admin') {
-    header("Location: unauthorized.php");
-    exit();
-}
+// // Kiểm tra vai trò của người dùng
+// if ($_SESSION['role'] !== 'admin') {
+//     header("Location: unauthorized.php");
+//     exit();
+// }
 
 $conn = open_database();
 
 // Lấy danh sách nhân viên từ cơ sở dữ liệu
-$sql = "SELECT * FROM account WHERE role = 'employee'";
+// $sql = "SELECT * FROM account WHERE role = 'employee'";
+// $sql = "SELECT acc.*, info.dob, info.phone, info.id 
+// FROM account AS acc 
+// LEFT JOIN info_page AS info ON acc.username = info.username 
+// WHERE acc.username = '$username' AND acc.role = 'employee'";
+$username = $_SESSION['user'];
+$sql = "SELECT acc.*, info.dob, info.phone, info.img 
+        FROM account AS acc 
+        LEFT JOIN info_page AS info ON acc.username = info.username 
+        WHERE acc.role = 'employee'";
+
 $result = $conn->query($sql);
+// $result = $conn->query($sql);
 
 // Kiểm tra xem có nhân viên nào hay không
 $employees = [];
@@ -38,6 +49,11 @@ if ($result->num_rows > 0) {
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         /* CSS styles */
+        .profile-img {
+            display: block;
+            border-radius: 50%;
+            object-fit: cover;
+        }
     </style>
 </head>
 
@@ -61,7 +77,11 @@ if ($result->num_rows > 0) {
                     <tbody>
                         <?php foreach ($employees as $employee) : ?>
                             <tr>
-                                <td><img src="avatar/<?php echo $employee['username']; ?>.png" alt="Avatar" style="width:50px;height:50px;"></td>
+                                <td>
+                                    <img style="width: 50px; height: 50px;" class="profile-img" src="<?php echo $employee['img'] != null ? $employee['img']:'uploads/avatar_default.png'; ?>" alt="Ảnh Đại Diện"/>
+
+
+                                </td>
                                 <td><?php echo $employee['firstname'] . ' ' . $employee['lastname']; ?></td>
                                 <td>
                                     <?php if ($employee['activated'] == 0) : ?>

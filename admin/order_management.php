@@ -1,78 +1,139 @@
-<?php 
-include 'header.php'; 
+<?php
+// Bắt đầu phiên làm việc
+session_start();
+
+// Include file kết nối đến cơ sở dữ liệu
+include 'db.php';
+$conn = open_database();
+
+// Lấy danh sách sản phẩm từ cơ sở dữ liệu
+$sql_products = "SELECT * FROM tbl_product";
+$result_products = $conn->query($sql_products);
 ?>
-    <header>
-        <h1>Quản lý đơn hàng</h1>
-    </header>
 
-    <section class="admin-content">
-        <!-- <div class="admin-content-left">
-            <ul>
-                <li><a href="">Danh mục</a>
-                    <ul>
-                        <li><a href="cartegoryAdd.php">Thêm danh mục</a></li>
-                        <li><a href="cartegorylist.php">Danh sách danh mục</a></li>
-                    </ul>
-                </li>
-                <li><a href="">Loại sản phẩm</a>
-                    <ul>
-                        <li><a href="">Thêm loại sản phẩm</a></li>
-                        <li><a href="">Danh sách loại sản phẩm </a></li>
-                    </ul>
-                </li>
-                <li><a href="">Sản phẩm</a>
-                    <ul>
-                        <li><a href="">Thêm sản phẩm</a></li>
-                        <li><a href="">Danh sách sản phẩm</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div> -->
+<!DOCTYPE html>
+<html lang="en">
 
-        <div class="admin-content-right">
-            <div class="admin-content-right-cartegory-list">
-                <h1>Danh sách đơn hàng</h1>
-                <table style="width: 100%;     text-align: center; margin-top: 20px;">
-                    <tr>
-                        <th>ID</th>
-                        <th>Tên khách hàng</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th>Địa chỉ</th>
-                        <th>Ghi chú</th>
-                        <th>Chi tiết</th>
-                        <th>Ngày</th>
-                        <th>Trạng thái</th>
-                        <th>Tùy biến</th>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Huỳnh Nam</td>
-                        <td>08088508</td>
-                        <td>abc@gmail.com</td>
-                        <td>Việt Nam</td>
-                        <td>Giao nhanh</td>
-                        <td><button style="background: aqua; border: none; line-height: 10px; padding:6px;"><a href="order_details.php">Chi tiết</a></button></td>
-                        <td>12/12/2012</td>
-                        <td><span style="background-color: green; color:aliceblue;">Đã xác nhận</span></td>
-                        <td><button style="background: rgb(231, 101, 101); border: none; line-height: 10px; padding:6px;"><a href="">Xóa</a></button></td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Huỳnh Nam</td>
-                        <td>08088508</td>
-                        <td>abc@gmail.com</td>
-                        <td>Việt Nam</td>
-                        <td>Giao nhanh</td>
-                        <td><button style="background: aqua; border: none; line-height: 10px; padding:6px;"><a href="order_details.php">Chi tiết</a></button></td>
-                        <td>12/12/2012</td>
-                        <td><span style="background-color:  rgb(231, 101, 101); color:aliceblue;">Chưa xác nhận</span></td>
-                        <td><button style="background: rgb(231, 101, 101); border: none; line-height: 10px; padding:6px;"><a href="">Xóa</a></button></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </section>
-    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo Đơn Hàng Mới</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Tạo Đơn Hàng Mới</h2>
+        <form method="POST" action="process_order.php">
+            <!-- <input type="hidden" name="customer_id" class="form-control" value=""> -->
+            <?php
+            $customer_id = isset($_GET['customer_id']) ? $_GET['customer_id'] : '';
+            $_SESSION['customer_id'] =  $customer_id;
+
+            // echo $customer_id;
+            // $_SESSION['customer_id'] = $_GET['customer_id'];
+            ?>
+            <input type="hidden" name="customer_id" class="form-control" value="<?php echo $customer_id; ?>">
+
+            <label for="product_id">Chọn Sản Phẩm:</label>
+            <select name="product_id" class="form-control" required>
+                <option value="">Chọn Sản Phẩm</option>
+                <?php
+                // Hiển thị danh sách sản phẩm để chọn
+                if ($result_products->num_rows > 0) {
+                    while ($row = $result_products->fetch_assoc()) {
+                        echo '<option value="' . $row['product_id'] . '">' . $row['product_name'] . '</option>';
+                    }
+                } else {
+                    echo '<option value="" disabled>Không có sản phẩm nào.</option>';
+                }
+                ?>
+            </select>
+
+
+
+
+
+            <label for="quantity">Số Lượng:</label>
+            <input type="number" name="quantity" class="form-control" min="1" value="1" required>
+
+
+            <!-- <button id="add-product-btn" class="btn">Thêm Sản Phẩm</button> -->
+            <input type="submit" value="Thêm Vào Đơn Hàng" class="btn">
+            <a href="index_employee.php" class="btn">Quay lại Trang Chính</a>
+        </form>
+
+    </div>
 </body>
+
 </html>

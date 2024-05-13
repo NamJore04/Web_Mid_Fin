@@ -10,20 +10,21 @@ if (!isset($_SESSION['user'])) {
 
 $user = $_SESSION['user'];
 
-$sql_info_page = "SELECT dob, phone FROM info_page WHERE username = '$user'";
+
+$sql_info_page = "SELECT dob, phone, img FROM info_page WHERE username = '$user'";
 $result_info_page = $conn->query($sql_info_page);
 
-$sql_account = "SELECT username, password, email FROM account WHERE username = '$user'";
+$sql_account = "SELECT username, email FROM account WHERE username = '$user'";
 $result_account = $conn->query($sql_account);
 
 if ($result_info_page->num_rows > 0 && $result_account->num_rows > 0) {
     $row_info_page = $result_info_page->fetch_assoc();
     $dob = $row_info_page['dob'];
     $phone = $row_info_page['phone'];
+    $img = $row_info_page['img']; // Lấy đường dẫn ảnh đại diện từ cơ sở dữ liệu
 
     $row_account = $result_account->fetch_assoc();
     $username = $row_account['username'];
-    $password = $row_account['password'];
     $email = $row_account['email'];
 }
 ?>
@@ -92,20 +93,26 @@ if ($result_info_page->num_rows > 0 && $result_account->num_rows > 0) {
         .btn-secondary {
             background-color: #6c757d;
         }
+        .profile-img {
+            display: block;
+            margin: 20px auto;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
         <h1>Chỉnh Sửa Thông Tin</h1>
-        <form method="POST" action="update_info.php">
+        <form method="POST" action="update_info.php" enctype="multipart/form-data">
+        <!-- <form method="post" action="<?php //echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype="multipart/form-data"> -->
+
             <div class="info">
                 <label for="username">Tên Đăng Nhập:</label>
                 <input type="text" id="username" name="username" value="<?php echo $username; ?>" disabled>
-            </div>
-            <div class="info">
-                <label for="password">Mật Khẩu:</label>
-                <input type="password" id="password" name="password" value="<?php echo $password; ?>" disabled>
             </div>
             <div class="info">
                 <label for="email">Email:</label>
@@ -119,6 +126,15 @@ if ($result_info_page->num_rows > 0 && $result_account->num_rows > 0) {
                 <label for="phone">Số Điện Thoại:</label>
                 <input type="text" id="phone" name="phone" value="<?php echo $phone; ?>">
             </div>
+            <div class="info">
+                <label for="avatar">Ảnh Đại Diện:</label>
+                <input type="file" class="avatar" name="avatar" accept="image/*">
+                <!-- <img src="<?php //echo $img; ?>" alt="Ảnh Đại Diện" > -->
+                <img style="width: 100px; height: 100px;" class="profile-img" src="<?php echo $img != null ? $img : 'uploads/avatar_default.png'; ?>" alt="Ảnh Đại Diện"/>
+
+
+            </div>
+            <br>
             <button type="submit" class="btn">Lưu Thay Đổi</button>
             <a href="info_page.php"><button type="button" class="btn btn-secondary">Trở về trang thông tin</button></a>
         </form>

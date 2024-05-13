@@ -30,7 +30,6 @@
         public function insert_product() {
             $product_name = $_POST[ 'product_name' ];
             $cartegory_id  = $_POST['cartegory_id'];
-            $brand_id   	= $_POST['brand_id'];
             $product_price    = $_POST['product_price'];
             $product_price_new    = $_POST['product_price_new'];
             $product_desc    = $_POST['product_desc'];
@@ -50,7 +49,6 @@
                     $query = "INSERT INTO tbl_product (
                         product_name,
                         cartegory_id,
-                        brand_id,
                         product_price,
                         product_price_new,
                         product_desc,
@@ -58,7 +56,6 @@
                     VALUES (
                         '$product_name',
                         '$cartegory_id',
-                        '$brand_id',
                         '$product_price',
                         '$product_price_new',
                         '$product_desc',
@@ -108,16 +105,16 @@
                                         $product_img,
                                         $filetarget,
                                         $fileStype) {
-            $query = "UPDATE  tbl_product 
-            SET product_name = '$product_name',
-            product_name = '$product_name',
-            product_price = '$product_price',
-            product_price_new = '$product_price_new',
-            product_desc = '$product_desc',
-            product_img = '$product_img',
-            filetarget = '$filetarget',
-            fileStype = '$fileStype',
-            WHERE product_id = '$product_id'";
+                                            $query = "UPDATE  tbl_product 
+                                            SET product_name = '$product_name',
+                                            product_name = '$product_name',
+                                            product_price = '$product_price',
+                                            product_price_new = '$product_price_new',
+                                            product_desc = '$product_desc',
+                                            product_img = '$product_img'
+                                            -- filetarget = '$filetarget',
+                                            -- fileStype = '$fileStype'
+                                            WHERE product_id = '$product_id'";
             $result = $this->db->update($query);
             header('location:productlist.php');
             return $result;
@@ -160,7 +157,6 @@
         }
 
         public function show_brand() {
-            // $query = "SELECT * FROM tbl_brand ORDER BY brand_id DESC";
             $query = "SELECT tbl_brand.*,tbl_cartegory.cartegory_name 
             FROM tbl_brand INNER JOIN tbl_cartegory 
             ON tbl_brand.cartegory_id = tbl_cartegory.cartegory_id  

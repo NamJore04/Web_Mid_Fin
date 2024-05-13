@@ -42,10 +42,10 @@ include 'database.php';
 session_start();
 // $_SESSION['user'];
 open_database();
-if (isset($_SESSION['user'])) {
-    header('Location: index.php');
-    exit();
-}
+// if (isset($_SESSION['user'])) {
+//     header('Location: index.php');
+//     exit();
+// }
 
 $error = '';
 

@@ -11,19 +11,50 @@ if (!isset($_SESSION['user'])) {
 $user = $_SESSION['user'];
 $message = "";
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dob = $_POST['dob'];
     $phone = $_POST['phone'];
 
+    // Xử lý tải lên ảnh đại diện mới
+    if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+        $file_tmp_name = $_FILES['avatar']['tmp_name'];
+        $file_name = $_FILES['avatar']['name'];
+        $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        $allowed_exts = array('jpg', 'jpeg', 'png', 'gif');
+        // echo $file_tmp_name;
+
+        if (in_array($file_ext, $allowed_exts)) {
+            $new_file_name = 'avatar_' . $user . '.' . $file_ext;
+            $upload_dir = 'uploads/';
+            $upload_path = $upload_dir . $new_file_name;
+
+            if (move_uploaded_file($file_tmp_name, $upload_path)) {
+                // Cập nhật đường dẫn ảnh đại diện trong cơ sở dữ liệu
+                $sql_update_img = "UPDATE info_page SET img = '$upload_path' WHERE username = '$user'";
+                if ($conn->query($sql_update_img) !== TRUE) {
+                    $message = "Có lỗi xảy ra khi cập nhật ảnh đại diện: " . $conn->error;
+                }
+            } else {
+                $message = "Có lỗi xảy ra khi tải lên ảnh đại diện.";
+            }
+        } else {
+            $message = "Định dạng ảnh không hợp lệ. Vui lòng chọn file ảnh có định dạng JPG, JPEG, PNG hoặc GIF.";
+        }
+    }
+
+    // Tiếp tục cập nhật thông tin người dùng
     $sql_update_info_page = "UPDATE info_page SET dob = '$dob', phone = '$phone' WHERE username = '$user'";
     
     if ($conn->query($sql_update_info_page) === TRUE) {
-        $message = "Thông tin đã được cập nhật thành công!";
+        $message .= " Thông tin đã được cập nhật thành công!";
     } else {
-        $message = "Có lỗi xảy ra: " . $conn->error;
+        $message = "Có lỗi xảy ra khi cập nhật thông tin: " . $conn->error;
     }
 }
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

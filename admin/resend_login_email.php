@@ -66,7 +66,7 @@ if (isset($_GET['username'])) {
             $mail->isHTML(true);
             $rand = random_int(0, 1000);
             $activate_token = md5($username . '+' . $rand);
-            $activation_link = "http://localhost:8080/web2/admin/active.php?code=$activate_token";
+            $activation_link = "http://localhost/web2/admin/active.php?code=$activate_token";
 
             $mail->Subject = 'Re-activate your account';
             $mail->Body    = "Click the following link to activate your account: <a href='$activation_link'>$activation_link</a>";

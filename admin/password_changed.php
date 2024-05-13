@@ -23,11 +23,7 @@ session_start();
                 <div class="alert alert-success" role="alert">
                     Your password has been changed successfully!
                 </div>
-                <?php if ($_SESSION['role'] == 'admin') : ?>
-                    <a href="index.php" class="btn btn-primary btn-block">Back to Home</a>
-                <?php else : ?>
-                    <a href="index_employee.php" class="btn btn-primary btn-block">Back to Home</a>
-                <?php endif; ?>
+                <a href="login.php" class="btn btn-primary btn-block">Back to Home</a>
             </div>
         </div>
     </div>

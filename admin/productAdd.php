@@ -46,9 +46,9 @@
                         ?>
                     </select>
                     
-                    <label for="">Chọn loại sản phẩm<span style="color: red;">*</span></label>
+                    <!-- <label for="">Chọn loại sản phẩm<span style="color: red;">*</span></label>
                     <select name="brand_id" id="brand_id">
-                        <option value="">--Chọn--</option>
+                        <option value="">--Chọn--</option> -->
 
                     </select>
                     <label for="">Giá sản phẩm<span style="color: red;">*</span></label>

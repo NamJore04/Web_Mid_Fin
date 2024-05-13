@@ -1,6 +1,6 @@
 <?php
 // Kết nối đến cơ sở dữ liệu
-$conn = new mysqli('localhost', 'root', '', 'website_ivydemo');
+$conn = new mysqli('localhost', 'root', '', 'n21_web');
 
 // Kiểm tra kết nối
 if ($conn->connect_error) {

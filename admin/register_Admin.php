@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $rand = random_int(0, 1000);
                 $activate_token = md5($user . '+' . $rand);
                 // Tạo đường dẫn kích hoạt với mã xác nhận
-                $activation_link = "http://localhost:8080/web2/admin/active.php?code=$activate_token"; //http://localhost:8080/52200151_Lab08/source%20code/active.php?code=
+                $activation_link = "http://localhost/web2/admin/active.php?code=$activate_token"; //http://localhost:8080/52200151_Lab08/source%20code/active.php?code=
 
                 // Nội dung email kích hoạt
                 $mail->Subject = 'Activate your account';
