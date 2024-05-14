@@ -6,24 +6,25 @@ session_start();
 include 'db.php';
 $conn = open_database();
 
+
 // Kiểm tra xem có dữ liệu được gửi từ form hay không
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     unset($_SESSION['order_id']);
     // Lấy thông tin từ form
     $customer_id = $_POST['customer_id'];
     if (isset($_POST['barcode'])) {
-    $barcode = $_POST['barcode'];
-    $sql_search = "SELECT * FROM tbl_product WHERE barcode = ?";
-    $stmt_search = $conn->prepare($sql_search);
-    $stmt_search->bind_param("s", $barcode);
-    $stmt_search->execute();
-    $result_search = $stmt_search->get_result();
-    if ($result_search->num_rows > 0) {
-        // Hiển thị thông tin sản phẩm
-    } else {
-        echo "Không tìm thấy sản phẩm với mã vạch: " . $barcode;
+        $barcode = $_POST['barcode'];
+        $sql_search = "SELECT * FROM tbl_product WHERE barcode = ?";
+        $stmt_search = $conn->prepare($sql_search);
+        $stmt_search->bind_param("s", $barcode);
+        $stmt_search->execute();
+        $result_search = $stmt_search->get_result();
+        if ($result_search->num_rows > 0) {
+            // Hiển thị thông tin sản phẩm
+        } else {
+            echo "Không tìm thấy sản phẩm với mã vạch: " . $barcode;
+        }
     }
-}
     $product_id = $_POST['product_id'];
     $quantity = $_POST['quantity'];
 
@@ -72,6 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['order_success'] = true;
 
 
+
             $sql_create_transaction = "INSERT INTO `transaction` (product_id, customer_id, quantity, unit_price, total_amount, payment_date) 
             VALUES (?, ?, ?, ?, ?, NOW())";
             $stmt_create_transaction = $conn->prepare($sql_create_transaction);
@@ -92,17 +94,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn->close();
 
         // Chuyển hướng đến trang thông báo
-        header("Location: order_notification.php");
+        header("Location: check_info_cus.php");
         exit();
     } else {
         // Nếu không tìm thấy sản phẩm, chuyển hướng đến trang thông báo
         $_SESSION['order_failure'] = true;
-        header("Location: order_notification.php");
+        header("Location: check_info_cus.php");
         exit();
     }
 } else {
     // Nếu không có dữ liệu được gửi từ form, chuyển hướng về trang thông báo
     $_SESSION['order_failure'] = true;
-    header("Location: order_notification.php");
+    header("Location: check_info_cus.php");
     exit();
 }

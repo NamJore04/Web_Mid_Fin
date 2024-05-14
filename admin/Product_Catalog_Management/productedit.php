@@ -31,10 +31,10 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
     $product_img    = $_FILES["product_img"]['name'];
     $filetarget = basename($_FILES['product_img']['name']);
     $fileStype = strtolower(pathinfo($product_img,  PATHINFO_EXTENSION));
-    if (file_exists("uploads/$filetarget")) {
-        $alert_null = 'File has exited.';
-        return $alert_null;
-    }
+    // if (file_exists("uploads/$filetarget")) {
+    //     $alert_null = 'File has exited.';
+    //     return $alert_null;
+    // }
 
     if ($fileStype != "jpg" && $fileStype != "jpeg" && $fileStype != "png") {
         $alert_wrong = 'Only .jpg .png .jpeg';
@@ -109,9 +109,9 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
             <span style="color: red;"><?php if (isset($insert_product)) {
                                             echo $insert_product;
                                         } ?></span>
-            <input required multiple name="product_img" type="file">
+            <input multiple name="product_img" type="file">
             <label for="">Ảnh mô tả<span style="color: red;">*</span></label>
-            <input required name="product_img_desc[]" multiple type="file">
+            <input name="product_img_desc[]" multiple type="file">
             <button type="submit">Sửa</button>
         </form>
     </div>

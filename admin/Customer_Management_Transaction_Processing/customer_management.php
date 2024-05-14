@@ -95,3 +95,7 @@
 </body>
 
 </html>
+<?php 
+session_start();
+unset($_SESSION['cus_phone_number']);
+?>

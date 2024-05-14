@@ -72,13 +72,14 @@ if ($result->num_rows > 0) {
                             <th>Re-login</th>
                             <th>Unlock/Lock Account</th>
                             <th>Details</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($employees as $employee) : ?>
                             <tr>
                                 <td>
-                                    <img style="width: 50px; height: 50px;" class="profile-img" src="<?php echo $employee['img'] != null ? $employee['img']:'uploads/avatar_default.png'; ?>" alt="Ảnh Đại Diện"/>
+                                    <img style="width: 50px; height: 50px;" class="profile-img" src="<?php echo $employee['img'] != null ? $employee['img'] : 'uploads/avatar_default.png'; ?>" alt="Ảnh Đại Diện" />
 
 
                                 </td>
@@ -108,14 +109,17 @@ if ($result->num_rows > 0) {
                                     <a href="details_employee.php?username=<?php echo $employee['username']; ?>" class="btn btn-primary">View Details</a>
 
                                 </td>
-                            </tr>
+                                <td>
+                                    <a href="delete_employee.php?username=<?php echo $employee['username']; ?>" class="btn btn-danger">Xóa</a>
+                                </td>
+                            </tr>   
                         <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
-            
- 
-            
+
+
+
         </div>
         <br>
         <a href="index.php" class="btn btn-secondary">Back to home</a>
@@ -124,5 +128,3 @@ if ($result->num_rows > 0) {
 </body>
 
 </html>
-
-
