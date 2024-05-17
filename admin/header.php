@@ -20,9 +20,9 @@
                 <a href="../index.php"><i class="header__logo-img fa-brands fa-shopify">G21</i></a>
             </div>
             <div class="nav_right">
-                <a href="../Account_management/info_page.php"><i class="fa-solid fa-user"></i></i></a>
+                <a href="Account_management/info_page.php"><i class="fa-solid fa-user"></i></i></a>
                 <!-- <a href="../change_password.php"><i class="fa-solid fa-user"></i></i></a> -->
-                <a href="../Account_management/logout_Admin.php"><i class="fa-solid fa-right-from-bracket"></i></a>
+                <a href="Account_management/logout_Admin.php"><i class="fa-solid fa-right-from-bracket"></i></a>
             </div>
         </nav>
     

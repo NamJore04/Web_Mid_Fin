@@ -17,23 +17,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result_check_phone->num_rows > 0) {
         $_SESSION['message'] = "Số điện thoại này đã được đăng ký.";
-        header("Location: register_acc_cus.php?phone_number=$phone");
+        header("Location: check_info_cus.php?phone_number=$phone");
         exit();
     } else {
         $sql_insert_customer = "INSERT INTO customer (phone_number, full_name, address) VALUES ('$phone', '$name', '$address')";
 
         if ($conn->query($sql_insert_customer) === TRUE) {
             $_SESSION['message'] = "Đăng ký thành công!";
-            header("Location: register_acc_cus.php");
+            header("Location: check_info_cus.php");
             exit();
         } else {
             $_SESSION['message'] = "Có lỗi xảy ra khi đăng ký: " . $conn->error;
-            header("Location: register_acc_cus.php");
+            header("Location: check_info_cus.php");
             exit();
         }
     }
 } else {
-    header("Location: register_acc_cus.php");
+    header("Location: check_info_cus.php");
     exit();
 }
 

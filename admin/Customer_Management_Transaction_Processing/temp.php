@@ -156,7 +156,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['produc
             <input type="number" name="quantity" class="form-control" min="1" value="1" required>
 
             <input type="submit" value="Thêm Vào Đơn Hàng" class="btn">
-            <a href="index.php" class="btn">Quay lại Trang Chính</a>
+            <a href="../index.php" class="btn">Quay lại Trang Chính</a>
         </form>
 
         <form method="POST" action="">

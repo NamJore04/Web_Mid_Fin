@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <button type="submit" class="btn btn-primary btn-block">Change Password</button>
                 </form>
                 <!-- <a href="<?php //echo ($_SESSION['role'] === 'admin') ? 'index.php' : 'index_employee.php'; ?>"><button class="btn btn-secondary btn-block mt-2">Thoát</button></a> -->
-                <a href="<?php echo 'index.php'; ?>"><button class="btn btn-secondary btn-block mt-2">Thoát</button></a>
+                <a href="<?php echo '../index.php'; ?>"><button class="btn btn-secondary btn-block mt-2">Thoát</button></a>
 
             </div>
         </div>

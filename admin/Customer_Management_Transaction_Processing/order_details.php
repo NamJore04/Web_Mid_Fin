@@ -166,7 +166,7 @@ if (isset($_GET['order_id'])) {
 
     <!-- <button class="btn" style="    margin: auto; display: flex;"><a href="check_info_cus.php?phone_number=<?php //echo $phone; 
                                                                                                                 ?>">Quay lại</a></button> -->
-    <button class="btn" style="    margin: auto; display: flex;"><a href="index.php">Quay lại</a></button>
+    <button class="btn" style="    margin: auto; display: flex;"><a href="../index.php">Quay lại</a></button>
 </body>
 
 </html>

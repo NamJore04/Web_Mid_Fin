@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="css/style_admin.css">
 <link rel="stylesheet" href="css/style.css">
 
-<?php 
+<?php
 include 'header.php';
 session_start();
 
@@ -17,10 +17,12 @@ if ($_SESSION['role'] === 'admin') {
 ?>
     <tbody>
         <section class="container_admin">
-            <div class="dasboard"><a href="#">Báo cáo và thống kê</a></div>
+            <div class="dasboard"><a href="Reporting_and_Analytics/dashboard.php">Báo cáo và thống kê</a></div>
             <div class="ordermanagement"><a href="Product_Catalog_Management/productAdd.php">Quản lý sản phẩm</a></div>
-            <div class="orderdetail"><a href="Customer_Management_Transaction_Processing/order_management.php">Quản lý đơn hàng</a></div>
-            <div class="upload_img_slide"><a href="Upslide/upload_slide.php">Up Slide</a></div>
+            <div class="customer_management"><a href="Customer_Management_Transaction_Processing/customer_management.php">Quản lý khách hàng, đơn hàng và thanh toán</a></div>
+
+            <!-- <div class="orderdetail"><a href="Customer_Management_Transaction_Processing/order_management.php">Quản lý đơn hàng</a></div> -->
+            <!-- <div class="upload_img_slide"><a href="Upslide/upload_slide.php">Up Slide</a></div> -->
             <div class="admin_manage_employee"><a href="Account_management/admin_manage_employee.php">Quản lý nhân viên</a></div>
         </section>
     </tbody>
@@ -29,7 +31,7 @@ if ($_SESSION['role'] === 'admin') {
 ?>
     <tbody>
         <section class="container_admin">
-            <div class="dasboard"><a href="#">Báo cáo và Phân tích</a></div>
+            <div class="dasboard"><a href="Reporting_and_Analytics/dashboard.php">Báo cáo và thống kê</a></div>
             <div class="ordermanagement"><a href="Product_Catalog_Management/productlist.php">Xem danh sách sản phẩm</a></div>
             <div class="customer_management"><a href="Customer_Management_Transaction_Processing/customer_management.php">Quản lý khách hàng, đơn hàng và thanh toán</a></div>
         </section>
@@ -48,4 +50,5 @@ if ($_SESSION['role'] === 'admin') {
 ?>
 <footer></footer>
 </body>
+
 </html>

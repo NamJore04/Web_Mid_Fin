@@ -122,7 +122,7 @@ if ($result->num_rows > 0) {
 
         </div>
         <br>
-        <a href="index.php" class="btn btn-secondary">Back to home</a>
+        <a href="../index.php" class="btn btn-secondary">Back to home</a>
         <a href="register_Admin.php" class="btn btn-primary">Thêm nhân viên</a>
     </div>
 </body>

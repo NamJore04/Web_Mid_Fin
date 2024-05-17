@@ -6,12 +6,12 @@ session_start();
 include 'db.php';
 $conn = open_database();
 
-
 // Kiểm tra xem có dữ liệu được gửi từ form hay không
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    unset($_SESSION['order_id']);
     // Lấy thông tin từ form
     $customer_id = $_POST['customer_id'];
+    
+    // Kiểm tra và xử lý mã vạch nếu có
     if (isset($_POST['barcode'])) {
         $barcode = $_POST['barcode'];
         $sql_search = "SELECT * FROM tbl_product WHERE barcode = ?";
@@ -25,6 +25,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Không tìm thấy sản phẩm với mã vạch: " . $barcode;
         }
     }
+    
+    // Lấy thông tin sản phẩm từ form
     $product_id = $_POST['product_id'];
     $quantity = $_POST['quantity'];
 
@@ -45,11 +47,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Tính tổng tiền cho sản phẩm trong đơn hàng
         $total_amount = $unit_price * $quantity;
 
-        // Thực hiện truy vấn để thêm sản phẩm vào đơn hàng
-        $sql_add_to_order = "INSERT INTO order_details (order_id, product_id, quantity, unit_price, total_amount) 
-                             VALUES (?, ?, ?, ?, ?)";
-        $stmt_add_to_order = $conn->prepare($sql_add_to_order);
-
         // Lấy order_id từ session hoặc tạo mới nếu chưa tồn tại
         if (!isset($_SESSION['order_id'])) {
             $sql_create_order = "INSERT INTO orders (customer_id, order_date) VALUES (?, NOW())";
@@ -67,29 +64,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $order_id = $_SESSION['order_id'];
         }
 
-        // Bind parameters và thực thi truy vấn
-        $stmt_add_to_order->bind_param("iiidd", $order_id, $product_id, $quantity, $unit_price, $total_amount);
-        if ($stmt_add_to_order->execute()) {
-            $_SESSION['order_success'] = true;
+        // $_SESSION['order_success'] = 'Them được';
 
+        // Thêm vào bảng transaction
+        $sql_create_transaction = "INSERT INTO `transaction` (order_id, product_id, customer_id, quantity, unit_price, total_amount, payment_date) 
+                                   VALUES (?, ?, ?, ?, ?, ?, NOW())";
+        $stmt_create_transaction = $conn->prepare($sql_create_transaction);
+        $stmt_create_transaction->bind_param("iiiidd", $order_id, $product_id, $customer_id, $quantity, $unit_price, $total_amount);
+        $stmt_create_transaction->execute();
 
-
-            $sql_create_transaction = "INSERT INTO `transaction` (product_id, customer_id, quantity, unit_price, total_amount, payment_date) 
-            VALUES (?, ?, ?, ?, ?, NOW())";
-            $stmt_create_transaction = $conn->prepare($sql_create_transaction);
-            $stmt_create_transaction->bind_param("iiidd", $product_id, $customer_id, $quantity, $unit_price, $total_amount);
-            $stmt_create_transaction->execute();
-            // $sql_create_purchase_history = "INSERT INTO purchase_history (customer_id, product_id, quantity, unit_price, total_amount, payment_date) 
-            // VALUES (?, ?, ?, ?, ?, ?, NOW())";
-            // $stmt_create_purchase_history = $conn->prepare($sql_create_purchase_history);
-            // $stmt_create_purchase_history->bind_param("iiiiidd", $customer_id, $order_id, $product_id, $quantity, $unit_price, $total_amount);
-            // $stmt_create_purchase_history->execute();
-        } else {
-            $_SESSION['order_failure'] = true;
-        }
-
-        // Đóng kết nối và statement
-        $stmt_add_to_order->close();
+        // Đóng statement và kết nối
+        $stmt_create_transaction->close();
         $stmt_product->close();
         $conn->close();
 
@@ -98,13 +83,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     } else {
         // Nếu không tìm thấy sản phẩm, chuyển hướng đến trang thông báo
-        $_SESSION['order_failure'] = true;
+        // $_SESSION['order_failure'] = 'Nếu không tìm thấy sản phẩm';
         header("Location: check_info_cus.php");
         exit();
     }
 } else {
     // Nếu không có dữ liệu được gửi từ form, chuyển hướng về trang thông báo
-    $_SESSION['order_failure'] = true;
+    // $_SESSION['order_failure'] = 'không có dữ liệu được gửi từ form';
     header("Location: check_info_cus.php");
     exit();
 }
+?>

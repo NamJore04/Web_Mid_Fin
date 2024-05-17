@@ -160,7 +160,7 @@ if ($employee_result->num_rows > 0) {
         <div class="btn-container">
             <a href="edit_info.php"><button class="btn">Chỉnh Sửa Tài Khoản</button></a>
             <a href="change_password.php"><button class="btn-mk">Đổi mật khẩu</button></a>
-            <a href="<?php echo 'index.php'; ?>"><button class="btn btn-secondary">Thoát</button></a>
+            <a href="<?php echo '../index.php'; ?>"><button class="btn btn-secondary">Thoát</button></a>
             <!-- <a href="<?php //echo ($_SESSION['role'] === 'admin') ? 'index.php' : 'index_employee.php'; ?>"><button class="btn btn-secondary">Thoát</button></a> -->
         </div>
         <p style="color: red;"><?php echo $error ?></p>

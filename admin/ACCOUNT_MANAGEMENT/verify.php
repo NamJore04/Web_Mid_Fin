@@ -14,7 +14,7 @@
             <hr class="my-4">
             <p>The account has been created successfully. Please wait for staff to activate your account.</p>
             <p>Return to home page.</p>
-            <a class="btn btn-primary btn-lg" href="index.php" role="button">Home Page</a>
+            <a class="btn btn-primary btn-lg" href="../index.php" role="button">Home Page</a>
         </div>
     </div>
 </body>

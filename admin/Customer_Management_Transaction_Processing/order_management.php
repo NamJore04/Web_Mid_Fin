@@ -11,17 +11,6 @@ $sql_products = "SELECT * FROM tbl_product";
 $result_products = $conn->query($sql_products);
 ?>
 
-<?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Lấy thông tin sản phẩm từ form
-    // $product_id = $_POST['product_id'];
-
-    // // Lấy thông tin sản phẩm từ cơ sở dữ liệu
-    // $sql_product = "SELECT * FROM tbl_product WHERE product_id = $product_id";
-    // $result_product = $conn->query($sql_product);
-    // $product = $result_product->fetch_assoc();
-}
-?>
 
 <?php
 // Xử lý tìm kiếm nếu có
@@ -129,54 +118,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_term'])) {
             <?php
             $customer_id = isset($_GET['customer_id']) ? $_GET['customer_id'] : '';
             $_SESSION['customer_id'] =  $customer_id;
-            // echo $_SESSION['cus_phone_number'];
 
-
-            // echo $customer_id;
-            // $_SESSION['customer_id'] = $_GET['customer_id'];
             ?>
-            <input type="hidden" name="customer_id" class="form-control" value="<?php echo $customer_id; ?>">
+            <!-- <input type="hidden" name="customer_id" class="form-control" value="<?php echo $customer_id; ?>"> -->
 
-            <!-- <label for="product_id">Chọn Sản Phẩm:</label>
-            <select name="product_id" class="form-control" required>
-                <option value="">Chọn Sản Phẩm</option> -->
-
-            <?php
-            // Hiển thị danh sách sản phẩm để chọn
-            // if ($result_products->num_rows > 0) {
-            //     while ($row = $result_products->fetch_assoc()) {
-            //         echo '<option value="' . $row['product_id'] . '">' . $row['product_name'] . '</option>';
-            //     }
-            // } else {
-            //     echo '<option value="" disabled>Không có sản phẩm nào.</option>';
-            // }
-            ?>
             </select>
-
-
-
-
-
-            <!-- <label for="quantity">Số Lượng:</label>
-            <input type="number" name="quantity" class="form-control" min="1" value="1" required> -->
-
             <input type="hidden" name="customer_id" class="form-control" value="<?php echo $customer_id; ?>">
 
-
-            <!-- <form action="process_order.php" method="post">
-                <input type="text" name="barcode" placeholder="Nhập mã vạch sản phẩm">
-                <input type="submit" value="Tìm kiếm">
-            </form> -->
-
-            <!-- <button id="add-product-btn" class="btn">Thêm Sản Phẩm</button> -->
-            <!-- <input type="submit" value="Thêm Vào Đơn Hàng" class="btn"> -->
-
-            <!-- Existing form fields... -->
-            <input type="hidden" name="customer_id" class="form-control" value="<?php echo $customer_id; ?>">
-
-
-
-
+            <!-- <input type="hidden" name="customer_id" class="form-control" value="<?php echo $customer_id; ?>"> -->
 
 
             <?php if ($result_products->num_rows > 0) : ?>
@@ -186,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_term'])) {
                         <th>ID</th>
                         <th>Tên sản phẩm</th>
                         <th>Ảnh</th>
-                        <th>Số lượng</th>
+                        <!-- <th>Số lượng</th> -->
                         <th>Thêm vào đơn hàng</th>
                         <!-- Thêm các cột khác tương ứng với các trường trong bảng tbl_product -->
                     </tr>
@@ -198,12 +147,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_term'])) {
                             <td><?php echo $row['product_id']; ?></td>
                             <td><?php echo $row['product_name']; ?></td>
                             <td><img src="../Product_Catalog_Management/uploads/<?php echo $row['product_img']; ?>" alt="<?php echo $row['product_name']; ?>" style="width: 100px;height: 100px;"></td>
-                            <td><input type="number" name="quantity" class="form-control" min="1" value="1" required></td>
+                            <!-- <td><input type="number" name="quantity" class="form-control" min="1" value="1" required></td> -->
                             <td>
                                 <form method="POST" action="process_order.php">
                                     <input type="hidden" name="customer_id" value="<?php echo $customer_id; ?>">
                                     <input type="hidden" name="product_id" value="<?php echo $row['product_id']; ?>">
-                                    <!-- <input type="hidden" name="quantity" value="1"> -->
+                                    <input type="number" name="quantity" class="form-control" min="1" value="1" required style="width: 70px;">
                                     <input type="submit" value="Thêm vào đơn hàng" class="btn">
                                 </form>
                             </td>
@@ -228,7 +177,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_term'])) {
                 <th>Thành tiền</th>
                 <th>Xoá</th>
             </tr>
-            <?php foreach ($_SESSION['cart'] as $item) : ?>
+            <?php //foreach ($_SESSION['cart'] as $item) : 
+            ?>
                 <tr>
                     <td><?php //echo $item['product_id']; 
                         ?></td>
@@ -243,7 +193,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_term'])) {
                     <td><a href="?action=delete&product_id=<?php //echo $item['product_id']; 
                                                             ?>">Xoá</a></td>
                 </tr>
-            <?php endforeach; ?>
+            <?php //endforeach; 
+            ?>
         </table> -->
 
         <!-- Form nhập thông tin thanh toán -->

@@ -89,13 +89,17 @@
             <label for="phone">Số Điện Thoại:</label><br>
             <input type="text" id="phone" name="phone_number" required><br><br>
             <input type="submit" value="Kiểm tra">
-            <a href="index.php">Thoát</a>
+            <a href="../index.php">Thoát</a>
         </form>
     </div>
 </body>
 
 </html>
-<?php 
+<?php
 session_start();
 unset($_SESSION['cus_phone_number']);
+unset($_SESSION['order_id']);
+unset($_SESSION['message']);
+unset($_SESSION['sucs']);
+
 ?>

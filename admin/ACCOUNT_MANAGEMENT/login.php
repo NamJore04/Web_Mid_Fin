@@ -81,10 +81,10 @@ if (isset($_POST['user']) && isset($_POST['pass'])) {
             $_SESSION['user'] = $user;
             $_SESSION['role'] = $login_result['role'];
             if ($login_result['role'] === 'admin') {
-                header('Location: index.php');
+                header('Location: ../index.php');
             } else {
                 // header('Location: index.php');
-                header('Location: index.php');
+                header('Location: ../index.php');
             }
             exit();
             // $_SESSION['name'] = $login_result['data']['name']; // Giả sử 'name' là một trường trong dữ liệu của người dùng
