@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql_update_password = "UPDATE account SET password = '$hashed_password' WHERE username = '$user'";
         // if ($conn->query($sql_update_password) == TRUE) {
         //     // Chuyển hướng người dùng đến trang thông báo thành công
-            header("Location: password_changed.php");
+        header("Location: password_changed.php");
         //     exit();
 
         // } else {
@@ -46,8 +46,91 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Change Password</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 500px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .mb-4 {
+        margin-bottom: 20px;
+    }
+
+    .mt-5 {
+        margin-top: 50px;
+    }
+
+    .alert {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 14px;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        margin-top: 10px;
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-block {
+        display: block;
+        width: 100%;
+    }
+</style>
 
 <body>
     <div class="container mt-5">

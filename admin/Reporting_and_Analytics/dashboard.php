@@ -38,7 +38,8 @@
             color: #333;
         }
 
-        select, input[type="date"] {
+        select,
+        input[type="date"] {
             padding: 8px;
             margin-right: 10px;
             border: 1px solid #ccc;
@@ -93,7 +94,7 @@
 <body>
     <div class="container">
         <h1>Dashboard</h1>
-        <button onclick="window.location.href = '../index.php';" style="padding: 8px 16px; background-color: #dc3545; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Return to Index</button>
+
         <!-- Form cho việc chọn khoảng thời gian -->
         <form action="dashboard.php" method="GET">
             <label for="time_period">Chọn khoảng thời gian:</label>
@@ -104,6 +105,7 @@
                 <option value="this_month">Trong tháng này</option>
                 <option value="custom">Khoảng thời gian cụ thể</option>
             </select>
+
             <div id="custom_dates" style="display: none;">
                 <label for="start_date">Từ ngày:</label>
                 <input type="date" name="start_date" id="start_date">
@@ -111,7 +113,9 @@
                 <input type="date" name="end_date" id="end_date">
             </div>
             <input type="submit" value="Xem báo cáo">
+
         </form>
+
 
         <?php
         include 'db.php';
@@ -128,6 +132,13 @@
         $total_orders = 0;
         $total_products = 0;
         $order_list = [];
+        $query = "SELECT SUM(total_amount) AS total_revenue, COUNT(DISTINCT order_id) AS total_orders, SUM(quantity) AS total_products
+        FROM transaction
+        WHERE payment_date = CURDATE() AND is_order = 0";
+        $order_query = "SELECT order_id, customer_id, order_date
+              FROM orders
+              WHERE DATE(order_date) = CURDATE() AND is_order = 0
+              ORDER BY order_date DESC";
 
         // Xử lý dữ liệu dựa trên khoảng thời gian được chọn
         switch ($time_period) {
@@ -218,6 +229,8 @@
         <p>Tổng số tiền: <?php echo $total_revenue; ?></p>
         <p>Số lượng đơn hàng: <?php echo $total_orders; ?></p>
         <p>Số lượng sản phẩm: <?php echo $total_products; ?></p>
+        <button onclick="window.location.href = '../index.php';" style="padding: 8px 16px; background-color: #dc3545; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Return to Index</button>
+
         <!-- Danh sách các đơn hàng -->
         <h2>Danh sách các đơn hàng</h2>
         <ul>

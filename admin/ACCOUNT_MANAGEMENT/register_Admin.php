@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $rand = random_int(0, 1000);
                 $activate_token = md5($user . '+' . $rand);
                 // Tạo đường dẫn kích hoạt với mã xác nhận
-                $activation_link = "http://localhost/web2/admin/Account_management/active.php?code=$activate_token"; //http://localhost:8080/52200151_Lab08/source%20code/active.php?code=
+                $activation_link = "http://localhost/Web_Mid_Fin/admin/Account_management/active.php?code=$activate_token"; //http://localhost:8080/52200151_Lab08/source%20code/active.php?code=
 
                 // Nội dung email kích hoạt
                 $mail->Subject = 'Activate your account';
@@ -104,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $sql = "INSERT INTO account (username, firstname, lastname, email, password, activate_token)
                         VALUES ('$user','$first_name', '$last_name', '$email',  '$hash',  '$activate_token')";
                         $sql_info_page = "INSERT INTO info_page (username)  VALUES ('$user')";
-                       
+
                         // $result_info_page = $conn->query($sql_info_page);
                         // Thực thi truy vấn
                         if ($conn->query($sql) === TRUE && $conn->query($sql_info_page)) {
@@ -137,14 +137,96 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Register an account</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <style>
-        .bg {
-            background: #eceb7b;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-secondary {
+            color: #6c757d;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            margin-bottom: .5rem;
+            display: block;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: .375rem .75rem;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 14px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btn-outline-success {
+            background-color: #fff;
+            color: #28a745;
+            border: 1px solid #28a745;
+        }
+
+        .btn-outline-success:hover {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .alert {
+            padding: 15px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
         }
     </style>
 </head>

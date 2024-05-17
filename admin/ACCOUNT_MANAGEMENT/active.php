@@ -44,11 +44,107 @@ if (isset($_GET['code'])) {
     <title>Account Activation</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
+        }
+
+        .col-md-6 {
+            width: 100%;
+        }
+
+        h4 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .text-success {
+            color: green;
+        }
+
+        .text-danger {
+            color: red;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 14px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+            display: block;
+            text-align: center;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .p-3 {
+            padding: 1rem;
+        }
+
+        .border {
+            border: 1px solid #ddd;
+        }
+
+        .rounded {
+            border-radius: 0.25rem;
+        }
+
+        .mt-5 {
+            margin-top: 3rem;
+        }
+
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .px-5 {
+            padding-left: 3rem;
+            padding-right: 3rem;
+        }
+    </style>
 </head>
 
 <body>
@@ -59,7 +155,7 @@ if (isset($_GET['code'])) {
                 <?php if (isset($activation_message) && strpos($activation_message, 'successfully') !== false) : ?>
                     <p class="text-success"><?= $activation_message ?></p>
                     <p>Click <a href="change_password_first.php">here</a> to login and manage your account information.</p>
-                    <a class="btn btn-success px-5" href="change_password_first.php">Login</a>
+                    <a class="btn btn-success" href="change_password_first.php">Login</a>
                 <?php else : ?>
                     <p class="text-danger"><?= $activation_message ?></p>
                     <!-- <p>Click <a href="change_password_first.php">here</a> to login.</p>

@@ -50,5 +50,46 @@ if ($_SESSION['role'] === 'admin') {
 ?>
 <footer></footer>
 </body>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container_admin {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .container_admin div {
+        width: 100%;
+        margin: 10px 0;
+        text-align: center;
+    }
+
+    .container_admin a {
+        display: block;
+        padding: 15px;
+        border-radius: 4px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    .container_admin a:hover {
+        background-color: #0056b3;
+    }
+</style>
 
 </html>
