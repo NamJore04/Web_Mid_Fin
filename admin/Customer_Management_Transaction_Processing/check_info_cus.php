@@ -38,7 +38,7 @@ function generateInvoice($transactions, $customer_info)
     $pdf->Output('F', 'invoice/' . $invoice);
 }
 // Handle payment
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pay']) && isset($_SESSION['order_id'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pay'])) {
     $customer_id = $_POST['customer_id'];
 
     // Update payment status or save payment information
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pay']) && isset($_SESS
     $customer_info = $result_customer_info->fetch_assoc();
 
     // Fetch transactions
-    $sql_transaction = "SELECT * FROM transaction WHERE customer_id = ? AND is_order = 1";
+    $sql_transaction = "SELECT * FROM transaction WHERE customer_id = ?";
     $stmt_transaction = $conn->prepare($sql_transaction);
     $stmt_transaction->bind_param("i", $customer_id);
     $stmt_transaction->execute();
@@ -79,11 +79,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pay']) && isset($_SESS
     $stmt_update_orders->execute();
 
     // Redirect or show success message
-    $_SESSION['sucs'] = "Thanh toán thành công. Hóa đơn được tạo.";
+    $_SESSION['message'] = "Thanh toán thành công. Hóa đơn được tạo.";
     header("Location: check_info_cus.php");
     exit();
-} else {
-    // $_SESSION['message'] = 'Không có đơn hàng nào.';
 }
 ?>
 
@@ -109,17 +107,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_order'])) {
 
 <?php
 // delete payment
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_his_payment'])) {
-    // $customer_id = $_POST['customer_id'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_his_payment']) && isset($_POST['customer_id']) ) {
+    $customer_id = $_POST['customer_id'];
 
     
 
     // Delete transaction records where is_order is equal to 0
-    $sql_delete_transaction = "DELETE FROM transaction WHERE is_order = 0";
+    $sql_delete_transaction = "DELETE FROM transaction WHERE is_order = 0 AND customer_id = ?";
     $stmt_delete_transaction = $conn->prepare($sql_delete_transaction);
+    $stmt_delete_transaction->bind_param("i", $customer_id);
     $stmt_delete_transaction->execute();
 }
+// echo $_SESSION['order_id'];
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -255,10 +256,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_his_payment']))
         <h2>Kiểm Tra Thông Tin Khách Hàng</h2>
         <?php
 
-
-        if (isset($_SESSION['sucs'])) {
-            echo '<p style="color: green;">' . $_SESSION['sucs'] . '</p>';
-            unset($_SESSION['sucs']);
+        if (isset($_SESSION['message'])) {
+            echo '<p style="color: green;">' . $_SESSION['message'] . '</p>';
+            unset($_SESSION['message']);
         }
 
         if (isset($_SESSION['error'])) {
@@ -399,6 +399,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_his_payment']))
                 echo '<tr>';
                 echo '<td colspan="5">';
                 echo '<form form method="post" action="">';
+                echo '<input type="hidden" name="customer_id" value="' . $customer_id . '">';
                 echo '<button type="submit" name="delete_his_payment" style = "display: flex;margin: auto;"  class="btn btn-delete">Xóa lịch sử</button>';
                 echo '</form>';
                 echo '</td>';
