@@ -7,11 +7,11 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
-// Kiểm tra vai trò của người dùng
-if ($_SESSION['role'] !== 'admin') {
-    header("Location: unauthorized.php");
-    exit();
-}
+// // Kiểm tra vai trò của người dùng
+// if ($_SESSION['role'] !== 'admin') {
+//     header("Location: unauthorized.php");
+//     exit();
+// }
 
 $conn = open_database();
 

@@ -81,8 +81,10 @@ if (isset($_GET['username'])) {
 
                     // Kiểm tra xem kết nối đã mở thành công hay không
                     if ($conn) {
+                        $created_at = time();
+
                         // Tạo truy vấn SQL để cập nhật dữ liệu mới
-                        $sql = "UPDATE account SET activate_token = '$activate_token' WHERE username = '$username'";
+                        $sql = "UPDATE account SET activate_token = '$activate_token', created_at = '$created_at' WHERE username = '$username'";
 
 
                         // Thực thi truy vấn SQL

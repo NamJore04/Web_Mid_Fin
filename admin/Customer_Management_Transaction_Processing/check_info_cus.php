@@ -53,35 +53,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pay'])) {
     $customer_info = $result_customer_info->fetch_assoc();
 
     // Fetch transactions
-    $sql_transaction = "SELECT * FROM transaction WHERE customer_id = ?";
+    $sql_transaction = "SELECT * FROM transaction WHERE customer_id = ? AND is_order = 1";
     $stmt_transaction = $conn->prepare($sql_transaction);
     $stmt_transaction->bind_param("i", $customer_id);
     $stmt_transaction->execute();
     $result_transaction = $stmt_transaction->get_result();
 
     $transactions = [];
-    while ($transaction = $result_transaction->fetch_assoc()) {
-        $transactions[] = $transaction;
+    if ($result_transaction->num_rows > 0) {
+        while ($transaction = $result_transaction->fetch_assoc()) {
+            $transactions[] = $transaction;
+        }
+
+
+        // Generate PDF invoice
+        generateInvoice($transactions, $customer_info);
+
+        // Update transactions to mark them as history
+        $sql_update_transaction = "UPDATE transaction SET is_order = 0 WHERE customer_id = ? AND is_order = 1";
+        $stmt_update_transaction = $conn->prepare($sql_update_transaction);
+        $stmt_update_transaction->bind_param("i", $customer_id);
+        $stmt_update_transaction->execute();
+
+        $sql_update_orders = "UPDATE orders SET is_order = 0 WHERE customer_id = ? AND is_order = 1 AND order_id = ?";
+        $stmt_update_orders = $conn->prepare($sql_update_orders);
+        $stmt_update_orders->bind_param("ii", $customer_id, $_SESSION['order_id']);
+        $stmt_update_orders->execute();
+
+        // Redirect or show success message
+        $_SESSION['message'] = "Thanh toán thành công. Hóa đơn được tạo.";
+        header("Location: check_info_cus.php");
+        exit();
+    } else {
+        // Redirect or show success message
+        $_SESSION['message'] = "Thanh toán không thành công. Vì đơn hàng không sản phẩm nào.";
+        header("Location: check_info_cus.php");
+        exit();
     }
-
-    // Generate PDF invoice
-    generateInvoice($transactions, $customer_info);
-
-    // Update transactions to mark them as history
-    $sql_update_transaction = "UPDATE transaction SET is_order = 0 WHERE customer_id = ? AND is_order = 1";
-    $stmt_update_transaction = $conn->prepare($sql_update_transaction);
-    $stmt_update_transaction->bind_param("i", $customer_id);
-    $stmt_update_transaction->execute();
-
-    $sql_update_orders = "UPDATE orders SET is_order = 0 WHERE customer_id = ? AND is_order = 1 AND order_id = ?";
-    $stmt_update_orders = $conn->prepare($sql_update_orders);
-    $stmt_update_orders->bind_param("ii", $customer_id, $_SESSION['order_id']);
-    $stmt_update_orders->execute();
-
-    // Redirect or show success message
-    $_SESSION['message'] = "Thanh toán thành công. Hóa đơn được tạo.";
-    header("Location: check_info_cus.php");
-    exit();
 }
 ?>
 
@@ -107,10 +115,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_order'])) {
 
 <?php
 // delete payment
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_his_payment']) && isset($_POST['customer_id']) ) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_his_payment']) && isset($_POST['customer_id'])) {
     $customer_id = $_POST['customer_id'];
 
-    
+
 
     // Delete transaction records where is_order is equal to 0
     $sql_delete_transaction = "DELETE FROM transaction WHERE is_order = 0 AND customer_id = ?";
@@ -386,18 +394,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_his_payment']) 
                 echo '<div class="purchase-history">';
                 echo '<h3>Lịch sử mua hàng:</h3>';
                 echo '<table>';
-                echo '<tr><th>Ngày Mua</th><th>Mã sản phẩm</th><th>Số Lượng</th><th>Giá Đơn Vị</th><th>Tổng Tiền</th></tr>';
+                echo '<tr><th>Ngày Mua</th><th>Mã sản phẩm</th><th>Mã đơn hàng</th><th>Số Lượng</th><th>Giá Đơn Vị</th><th>Tổng Tiền</th></tr>';
                 while ($row = $result_history_payment->fetch_assoc()) {
                     echo '<tr>';
                     echo '<td>' . $row['payment_date'] . '</td>';
                     echo '<td>' . $row['product_id'] . '</td>';
+                    echo '<td>' . $row['order_id'] . '</td>';
                     echo '<td>' . $row['quantity'] . '</td>';
                     echo '<td>' . $row['unit_price'] . '</td>';
                     echo '<td>' . $row['total_amount'] . '</td>';
                     echo '</tr>';
                 }
                 echo '<tr>';
-                echo '<td colspan="5">';
+                echo '<td colspan="6">';
                 echo '<form form method="post" action="">';
                 echo '<input type="hidden" name="customer_id" value="' . $customer_id . '">';
                 echo '<button type="submit" name="delete_his_payment" style = "display: flex;margin: auto;"  class="btn btn-delete">Xóa lịch sử</button>';

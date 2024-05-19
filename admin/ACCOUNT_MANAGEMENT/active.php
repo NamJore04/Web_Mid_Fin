@@ -10,30 +10,47 @@ if (isset($_GET['code'])) {
     // $_SESSION['activate_token'] = $activate_token;
 
 
+    $activation_message = '';
+
     // Kiểm tra mã xác nhận trong cơ sở dữ liệu
-    $sql = "SELECT email FROM account WHERE activate_token = '$activate_token'";
+    $sql = "SELECT email, created_at  FROM account WHERE activate_token = '$activate_token'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $email = $row['email'];
 
-        // Kích hoạt tài khoản
-        $sql_update = "UPDATE account SET activated = 1 WHERE email = '$email'";
-        if ($conn->query($sql_update) === TRUE) {
-            $activation_message = "Your account has been activated successfully!";
+        $created_at = $row['created_at'];
+        $current_time = time();
+
+        if (($current_time - $created_at) > 60) {
+            $activation_message =  "Liên kết kích hoạt đã hết hạn. Vui lòng yêu cầu mã mới.";
         } else {
-            $activation_message = "Error: " . $sql_update . "<br>" . $conn->error;
+            // Kích hoạt tài khoản
+            $sql_update = "UPDATE account SET activated = 1 WHERE email = '$email'";
+            if ($conn->query($sql_update) === TRUE) {
+                $activation_message = "Tại khoản của bạn đã được kích hoạt thành công!";
+            } else {
+                $activation_message = "Error: " . $sql_update . "<br>" . $conn->error;
+            }
         }
+
+        // // Kích hoạt tài khoản
+        // $sql_update = "UPDATE account SET activated = 1 WHERE email = '$email'";
+        // if ($conn->query($sql_update) === TRUE) {
+        //     $activation_message = "Your account has been activated successfully!";
+        // } else {
+        //     $activation_message = "Error: " . $sql_update . "<br>" . $conn->error;
+        // }
 
         // // Xóa mã xác nhận khỏi cơ sở dữ liệu
         // $sql_delete = "DELETE FROM activate_token WHERE activate_token = '$activate_token'";
         // $conn->query($sql_delete);
     } else {
-        $activation_message = "Invalid activation code.";
+        $activation_message = "Mã kích hoạt không hợp lệ.";
     }
 } else {
-    $activation_message = "Activation code is missing.";
+    $activation_message = "Mã kích hoạt bị thiếu.";
 }
 ?>
 
@@ -152,14 +169,15 @@ if (isset($_GET['code'])) {
         <div class="row">
             <div class="col-md-6 mt-5 mx-auto p-3 border rounded">
                 <h4>Account Activation</h4>
-                <?php if (isset($activation_message) && strpos($activation_message, 'successfully') !== false) : ?>
+                <?php if (isset($activation_message) && strpos($activation_message, 'thành công') != false) : ?>
+
                     <p class="text-success"><?= $activation_message ?></p>
                     <p>Click <a href="change_password_first.php">here</a> to login and manage your account information.</p>
                     <a class="btn btn-success" href="change_password_first.php">Login</a>
                 <?php else : ?>
                     <p class="text-danger"><?= $activation_message ?></p>
-                    <!-- <p>Click <a href="change_password_first.php">here</a> to login.</p>
-                    <a class="btn btn-success px-5" href="change_password_first.php">Login</a> -->
+                    <!-- <p>Click <a href="change_password_first.php">here</a> to login.</p> -->
+                    <!-- <a class="btn btn-success px-5" href="change_password_first.php">Login</a> -->
                 <?php endif; ?>
             </div>
         </div>

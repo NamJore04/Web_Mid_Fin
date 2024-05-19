@@ -100,9 +100,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $conn = open_database();
                         $hash = password_hash($pass, PASSWORD_DEFAULT);
 
+
+                        $created_at = time();
+
                         // Tạo truy vấn SQL để chèn dữ liệu mới
-                        $sql = "INSERT INTO account (username, firstname, lastname, email, password, activate_token)
-                        VALUES ('$user','$first_name', '$last_name', '$email',  '$hash',  '$activate_token')";
+                        $sql = "INSERT INTO account (username, firstname, lastname, email, password, activate_token, created_at)
+                        VALUES ('$user','$first_name', '$last_name', '$email',  '$hash',  '$activate_token','$created_at')";
                         $sql_info_page = "INSERT INTO info_page (username)  VALUES ('$user')";
 
                         // $result_info_page = $conn->query($sql_info_page);

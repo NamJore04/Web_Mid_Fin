@@ -58,12 +58,12 @@
 <body>
     <div class="container mt-5">
         <div class="jumbotron">
-            <h1 class="display-4">Email Verification Required!</h1>
-            <p class="lead">Please ask your employee to check their email inbox and follow the instructions to activate the account.</p>
+            <h1 class="display-4">Yêu cầu xác minh email!</h1>
+            <p class="lead">Vui lòng yêu cầu nhân viên của bạn kiểm tra hộp thư đến email của họ và làm theo hướng dẫn để kích hoạt tài khoản.</p>
             <hr class="my-4">
-            <p>The account has been created successfully. Please wait for staff to activate your account.</p>
-            <p>Return to home page.</p>
-            <a class="btn btn-primary btn-lg" href="../index.php" role="button">Home Page</a>
+            <p>Tài khoản đã được tạo thành công và chỉ có thời hạn kích hoạt trong một phút. Vui lòng đợi nhân viên kích hoạt tài khoản của bạn.</p>
+            <p>Trở về trang chủ.</p>
+            <a class="btn btn-primary btn-lg" href="../index.php" role="button">Trang chủ</a>
         </div>
     </div>
 </body>
