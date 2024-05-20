@@ -9,6 +9,4 @@
         $brand_id = $_GET['brand_id'];
     // }
     $delte_brand = $brand -> delte_brand($brand_id);
-
-
 ?>

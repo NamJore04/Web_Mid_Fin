@@ -9,6 +9,4 @@
         $cartegory_id = $_GET['cartegory_id'];
     }
     $delte_cartegory = $cartegory -> delte_cartegory($cartegory_id);
-
-
 ?>

@@ -1,5 +1,5 @@
 <?php
-    include "../header.php";
+    include "header.php";
     include "slider.php";
     include "class/cartegory_class.php"
 
@@ -18,7 +18,7 @@
                 <h1>Thêm danh mục</h1>
                 <form action="" method="post">
                     <input require name="cartegory_name" type="text" placeholder="Nhập tên danh mục">
-                    <button>Thêm</button>
+                    <button type="submit">Thêm</button>
                 </form>
             </div>
         </div>

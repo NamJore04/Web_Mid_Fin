@@ -1,5 +1,5 @@
 <?php
-include "../header.php";
+include "header.php";
 
 // include "class/brand_class.php";
 include "class/product_class.php"
@@ -37,6 +37,7 @@ endif;
             <tr>
                 <th>STT</th>
                 <th>Product_ID</th>
+                <th>Mã vạch</th>
                 <th>Product_Name</th>
                 <th>Loại sản phẩm</th>
                 <!-- <th>Danh mục</th> -->
@@ -63,6 +64,7 @@ endif;
                     <tr>
                         <td><?php echo $i ?></td>
                         <td><?php echo $result['product_id'] ?></td>
+                        <td><?php echo $result['barcode'] ?></td>
                         <td><?php echo $result['product_name'] ?></td>
                         <td><?php echo $result['cartegory_id'] ?></td>
                         <!-- <td><?php //echo $result['brand_id']

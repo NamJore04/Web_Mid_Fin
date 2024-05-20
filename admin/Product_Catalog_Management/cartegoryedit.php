@@ -1,5 +1,5 @@
 <?php
-    include "../header.php";
+    include "header.php";
     include "slider.php";
     include "class/cartegory_class.php"
 

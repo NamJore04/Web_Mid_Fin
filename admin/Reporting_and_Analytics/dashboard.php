@@ -132,13 +132,8 @@
         $total_orders = 0;
         $total_products = 0;
         $order_list = [];
-        $query = "SELECT SUM(total_amount) AS total_revenue, COUNT(DISTINCT order_id) AS total_orders, SUM(quantity) AS total_products
-        FROM transaction
-        WHERE payment_date = CURDATE() AND is_order = 0";
-        $order_query = "SELECT order_id, customer_id, order_date
-              FROM orders
-              WHERE DATE(order_date) = CURDATE() AND is_order = 0
-              ORDER BY order_date DESC";
+
+
 
         // Xử lý dữ liệu dựa trên khoảng thời gian được chọn
         switch ($time_period) {
@@ -192,7 +187,14 @@
                 }
                 break;
             default:
-                echo '<p>Vui lòng chọn khoảng thời gian.</p>';
+                $query = "SELECT SUM(total_amount) AS total_revenue, COUNT(DISTINCT order_id) AS total_orders, SUM(quantity) AS total_products
+                FROM transaction
+                WHERE payment_date = CURDATE() AND is_order = 0";
+                $order_query = "SELECT order_id, customer_id, order_date
+                  FROM orders
+                  WHERE DATE(order_date) = CURDATE() AND is_order = 0
+                  ORDER BY order_date DESC";
+                // echo '<p>Vui lòng chọn khoảng thời gian.</p>';
                 break;
         }
 
@@ -229,7 +231,7 @@
         <p>Tổng số tiền: <?php echo $total_revenue; ?></p>
         <p>Số lượng đơn hàng: <?php echo $total_orders; ?></p>
         <p>Số lượng sản phẩm: <?php echo $total_products; ?></p>
-        <button onclick="window.location.href = '../index.php';" style="padding: 8px 16px; background-color: #dc3545; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Return to Index</button>
+        <button onclick="window.location.href = '../index.php';" style="padding: 8px 16px; background-color: #dc3545; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Return to home</button>
 
         <!-- Danh sách các đơn hàng -->
         <h2>Danh sách các đơn hàng</h2>

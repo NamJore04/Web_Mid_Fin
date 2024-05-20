@@ -100,7 +100,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $conn = open_database();
                         $hash = password_hash($pass, PASSWORD_DEFAULT);
 
-
                         $created_at = time();
 
                         // Tạo truy vấn SQL để chèn dữ liệu mới
@@ -116,18 +115,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             header("Location: verify.php");
                         } else {
                             // Thông báo lỗi nếu có
-                            echo "Error: " . $sql . "<br>" . $conn->error;
+                            // echo "Error: " . $sql . "<br>" . $conn->error;
+                            $error = "<p style='color: red; font-weight: bold;'>Email này đã tồn tại.</p>";
+
                         }
 
                         // Đóng kết nối
                         $conn->close();
                     } catch (Exception $e) {
                         // Bắt lỗi nếu có
-                        echo "Error: " . $e->getMessage();
+                        // echo "Error: " . $e->getMessage();
+                        // echo "<p>Email này đã tồn tại.</p>";
+                        $error = "<p style='color: red; font-weight: bold;'>Email này đã tồn tại.</p>";
+
                     }
                 }
             } catch (Exception $e) {
-                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                // echo '<p>Message could not be sent. Mailer Error:<?php {$mail->ErrorInfo}?</p>';
+                // echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                $error = "<p style='color: red; font-weight: bold;'>Email này đã tồn tại.</p>";
             }
         }
     }
@@ -264,12 +270,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="form-group">
                         <label for="pass">Password</label>
                         <input value="<?= $pass ?>" name="pass" required class="form-control" type="password" placeholder="Password" id="pass">
-                        <div class="invalid-feedback">Password is not valid.</div>
+                        <!-- <div class="invalid-feedback">Password is not valid.</div> -->
                     </div>
                     <div class="form-group">
                         <label for="pass2">Confirm Password</label>
                         <input value="<?= $pass_confirm ?>" name="pass-confirm" required class="form-control" type="password" placeholder="Confirm Password" id="pass2">
-                        <div class="invalid-feedback">Password is not valid.</div>
+                        <!-- <div class="invalid-feedback">Password is not valid.</div> -->
                     </div>
                     <!-- <div class="form-group">
                         <label for="role">Role</label>

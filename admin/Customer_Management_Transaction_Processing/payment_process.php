@@ -4,42 +4,71 @@ require('vendor/autoload.php');
 
 $conn = open_database();
 session_start();
-
-function generateInvoice($transactions, $customer_info, $total_amount, $given_amount, $change)
-{
+function generateInvoice($transactions, $customer_info, $total_amount, $given_amount, $change) {
     $pdf = new FPDF();
     $pdf->AddPage();
-    $pdf->SetFont('Arial', 'B', 12);
+
+    // Add a header
+    $pdf->SetFont('Arial', 'B', 16);
     $pdf->Cell(0, 10, 'Invoice', 0, 1, 'C');
+    $pdf->Ln(10);
+
+    // Customer Information
+    $pdf->SetFont('Arial', '', 12);
+    $pdf->SetFillColor(200, 220, 255);
+    $pdf->Cell(0, 10, 'Customer Information', 0, 1, 'L', true);
     $pdf->SetFont('Arial', '', 10);
     $pdf->Cell(0, 10, 'Customer Name: ' . $customer_info['full_name'], 0, 1);
     $pdf->Cell(0, 10, 'Phone Number: ' . $customer_info['phone_number'], 0, 1);
     $pdf->Cell(0, 10, 'Address: ' . $customer_info['address'], 0, 1);
+    // $pdf->Cell(0, 10, 'Staff: ' . $user_id, 0, 1);
     $pdf->Ln(10);
 
-    $pdf->Cell(40, 10, 'Product ID', 1);
-    $pdf->Cell(40, 10, 'Quantity', 1);
-    $pdf->Cell(40, 10, 'Unit Price', 1);
-    $pdf->Cell(40, 10, 'Total Amount', 1);
+
+    $pdf->SetFont('Arial', '', 12);
+    $pdf->Cell(0, 10, 'Invoice Information', 0, 1, 'L', true);
+
+    // Table Header
+    $pdf->SetFont('Arial', 'B', 10);
+    $pdf->SetFillColor(230, 230, 230);
+    $pdf->Cell(40, 10, 'Order ID', 1, 0, 'C', true);
+    $pdf->Cell(40, 10, 'Product ID', 1, 0, 'C', true);
+    $pdf->Cell(40, 10, 'Quantity', 1, 0, 'C', true);
+    $pdf->Cell(40, 10, 'Unit Price', 1, 0, 'C', true);
+    $pdf->Cell(40, 10, 'Total Amount', 1, 0, 'C', true);
     $pdf->Ln();
 
+    // Table Content
+    $pdf->SetFont('Arial', '', 10);
     foreach ($transactions as $transaction) {
+        $pdf->Cell(40, 10, $transaction['order_id'], 1);
         $pdf->Cell(40, 10, $transaction['product_id'], 1);
         $pdf->Cell(40, 10, $transaction['quantity'], 1);
-        $pdf->Cell(40, 10, $transaction['unit_price'], 1);
-        $pdf->Cell(40, 10, $transaction['total_amount'], 1);
+        $pdf->Cell(40, 10, number_format($transaction['unit_price'], 2) . ' VND', 1);
+        $pdf->Cell(40, 10, number_format($transaction['total_amount'], 2) . ' VND', 1);
         $pdf->Ln();
     }
 
     $pdf->Ln(10);
-    $pdf->Cell(0, 10, 'Total Amount: ' . number_format($total_amount, 2) . ' VND', 0, 1);
-    $pdf->Cell(0, 10, 'Given Amount: ' . number_format($given_amount, 2) . ' VND', 0, 1);
-    $pdf->Cell(0, 10, 'Change: ' . number_format($change, 2) . ' VND', 0, 1);
+    // Summary
+    $pdf->SetFont('Arial', 'B', 10);
+    $pdf->Cell(40, 10, 'Total Amount:', 0);
+    $pdf->SetFont('Arial', '', 10);
+    $pdf->Cell(40, 10, number_format($total_amount, 2) . ' VND', 0, 1);
+    $pdf->SetFont('Arial', 'B', 10);
+    $pdf->Cell(40, 10, 'Given Amount:', 0);
+    $pdf->SetFont('Arial', '', 10);
+    $pdf->Cell(40, 10, number_format($given_amount, 2) . ' VND', 0, 1);
+    $pdf->SetFont('Arial', 'B', 10);
+    $pdf->Cell(40, 10, 'Change:', 0);
+    $pdf->SetFont('Arial', '', 10);
+    $pdf->Cell(40, 10, number_format($change, 2) . ' VND', 0, 1);
 
-    $invoice = $_SESSION['order_id'] . $customer_info['phone_number'] . '_' . '_invoice.pdf';
-
-    $pdf->Output('F', 'invoice/' . $invoice);
+    // Save the invoice as a file
+    $invoice = 'invoice/' . $_SESSION['order_id'] . '_' . $customer_info['phone_number'] . '_invoice.pdf';
+    $pdf->Output('F', $invoice);
 }
+
 
 // Handle the payment process
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_payment'])) {
@@ -49,6 +78,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_payment'])) {
 
     // Calculate the change
     $change = $given_amount - $total_amount;
+    if($change < 0) {
+        $_SESSION['message'] = "Thanh toán không thành công. Số tiền khách hàng đưa không đủ.";
+        header("Location: check_info_cus.php");
+        exit();
+    }
 
     // Fetch customer info
     $sql_customer_info = "SELECT * FROM customer WHERE customer_id = ?";
@@ -70,9 +104,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_payment'])) {
         while ($transaction = $result_transaction->fetch_assoc()) {
             $transactions[] = $transaction;
         }
+        $user_id = $_SESSION['user_id'];
 
         // Generate PDF invoice
-        generateInvoice($transactions, $customer_info, $total_amount, $given_amount, $change);
+        generateInvoice($transactions, $customer_info, $total_amount, $given_amount, $change, $user_id);
 
         // Update transactions to mark them as history
         $sql_update_transaction = "UPDATE transaction SET is_order = 0 WHERE customer_id = ? AND is_order = 1";

@@ -1,19 +1,16 @@
 <?php
-// Bắt đầu phiên làm việc
 session_start();
 
-// Include file kết nối đến cơ sở dữ liệu
 include 'db.php';
 $conn = open_database();
 
-// Lấy danh sách sản phẩm từ cơ sở dữ liệu
 $sql_products = "SELECT * FROM tbl_product";
 $result_products = $conn->query($sql_products);
 ?>
 
 
 <?php
-// Xử lý tìm kiếm nếu có
+// Xử lý tìm kiếm 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_term'])) {
     $search_term = $_POST['search_term'];
     $sql_search = "SELECT * FROM tbl_product WHERE product_name LIKE '%$search_term%' OR barcode LIKE '%$search_term%'";
@@ -156,7 +153,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_term'])) {
                                     <input type="submit" value="Thêm vào đơn hàng" class="btn">
                                 </form>
                             </td>
-
                         </tr>
                     <?php endwhile; ?>
                 </table>

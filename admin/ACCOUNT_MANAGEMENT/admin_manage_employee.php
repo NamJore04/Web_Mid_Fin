@@ -2,10 +2,10 @@
 session_start();
 include 'db.php';
 
-if (!isset($_SESSION['user'])) {
-    header("Location: login.php");
-    exit();
-}
+// if (!isset($_SESSION['user'])) {
+//     header("Location: login.php");
+//     exit();
+// }
 
 // // Kiểm tra vai trò của người dùng
 // if ($_SESSION['role'] !== 'admin') {

@@ -30,8 +30,8 @@ if (isset($_GET['username'])) {
     $sql_delete_employee_info = "DELETE FROM info_page WHERE username = ?";
     $stmt_delete_employee_info = $conn->prepare($sql_delete_employee_info);
     $stmt_delete_employee_info->bind_param("s", $username);
-    $stmt_delete_employee->execute();
     $stmt_delete_employee_info->execute();
+    $stmt_delete_employee->execute();
 
     // Kiểm tra xem xóa có thành công không
     $success_delete_employee_info = $stmt_delete_employee_info->affected_rows > 0;

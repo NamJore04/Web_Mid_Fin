@@ -238,6 +238,42 @@ function login($user, $pass)
             color: #dc3545;
             margin-top: 20px;
         }
+
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            width: 80%;
+            max-width: 400px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #218838;
+        }
+        .btn-outline-success {
+            background-color: #fff;
+            color: #28a745;
+            border: 1px solid #28a745;
+        }
+
+        .btn-outline-success:hover {
+            background-color: #28a745;
+            color: #fff;
+        }
     </style>
 </head>
 
@@ -266,7 +302,15 @@ function login($user, $pass)
                     <p>Don't have an account yet? <a href="register_Admin.php">Register now</a>.</p>
                     <p>Forgot your password? <a href="forgot_Admin.php">Reset your password</a>.</p>
                 </div> -->
+
             </form>
+            <form action="forgot_Admin.php" method="post" class="form-group">
+                <button type="submit" value="Forgot password" class="btn" >Quên mật khẩu</button>
+                <!-- <input type="submit" value="Forgot password" class="btn" onclick="window.location.href='forgot_Admin.php'" /> -->
+                <!-- <button type="reset" class="btn btn-outline-success px-5 mt-3">Reset</button> -->
+            </form>
+
+
             <!-- <p class="text-danger">Đăng nhập bằng tài khoản: <strong>admin</strong> - <strong>123456</strong></p>
         <p class="text-danger">Username và mật khẩu này đang viết trực tiếp trong code, cần bổ sung chức năng đọc database để lấy username và mật khẩu trong database</p> -->
         </div>

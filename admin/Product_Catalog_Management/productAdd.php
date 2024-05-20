@@ -1,5 +1,5 @@
 <?php
-include "../header.php";
+include "header.php";
 include "slider.php";
 include "class/product_class.php";
 
@@ -26,7 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
         <form action="" method="post" enctype="multipart/form-data">
             <label for="">Nhập tên sản phẩm <span style="color: red;">*</span></label>
             <input required type="text" name="product_name" placeholder="">
-            <!-- ajax -->
             <label for="">Chọn danh mục<span style="color: red;">*</span></label>
             <select name="cartegory_id" id="cartegory_id">
                 <option value="">--Chọn--</option>

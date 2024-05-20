@@ -1,8 +1,6 @@
 <?php
-// Bắt đầu phiên làm việc
 session_start();
 
-// Include file kết nối đến cơ sở dữ liệu
 include 'db.php';
 $conn = open_database();
 

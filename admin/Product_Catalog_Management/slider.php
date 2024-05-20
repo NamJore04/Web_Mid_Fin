@@ -7,12 +7,12 @@
                         <li><a href="cartegorylist.php">Danh sách danh mục</a></li>
                     </ul>
                 </li>
-                <li><a href=""><b>Loại sản phẩm</b></a>
+                <!-- <li><a href=""><b>Loại sản phẩm</b></a>
                     <ul>
                         <li><a href="brandadd.php">Thêm loại sản phẩm</a></li>
                         <li><a href="brandlist.php">Danh sách loại sản phẩm </a></li>
                     </ul>
-                </li>
+                </li> -->
                 <li><a href=""><b>Sản phẩm</b></a>
                     <ul>
                         <li><a href="productAdd.php">Thêm sản phẩm</a></li>

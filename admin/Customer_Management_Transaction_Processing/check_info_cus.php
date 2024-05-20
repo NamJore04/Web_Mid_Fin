@@ -430,6 +430,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_his_payment']) 
             <form method="post" action="payment_process.php" style="margin-top:10px;">
                 <input type="hidden" name="customer_id" value="<?php echo $customer_id; ?>">
                 <input type="hidden" name="total_amount" value="<?php echo $total_all_amounts; ?>">
+                <!-- <input type="hidden" name="user_id" value="<?php //echo $_SESSION['user_id']; ?>"> -->
                 <a href=""><button type="submit" name="pay" class="btn">Thanh toán</button></a>
             </form>
             <form method="post" action="" style="margin-top:10px;">
