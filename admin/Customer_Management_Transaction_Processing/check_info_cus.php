@@ -253,6 +253,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_his_payment']) 
         }
 
         .total-amount {
+            display: flex;
+            justify-content: space-between;
             text-align: right;
             font-weight: bold;
             margin-top: 20px;
@@ -265,6 +267,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_his_payment']) 
 
         <h2>Kiểm Tra Thông Tin Khách Hàng</h2>
         <?php
+        // echo $_SESSION['user'];
 
         if (isset($_SESSION['message'])) {
             echo '<p style="color: green;">' . $_SESSION['message'] . '</p>';
@@ -332,12 +335,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_his_payment']) 
                         echo '<h3>Đơn hàng:</h3>';
                         echo '<table>';
                         $total_all_amounts = 0;
-                        echo '<tr><th>Ngày Mua</th><th>Mã sản phẩm</th><th>Số Lượng</th><th>Giá Đơn Vị</th><th>Tổng Tiền</th><th>Chỉnh sửa</th><th>Xóa</th></tr>';
+                        echo '<tr><th>Tên sản phẩm</th><th>Số Lượng</th><th>Giá Đơn Vị</th><th>Tổng Tiền</th><th>Chỉnh sửa</th><th>Xóa</th></tr>';
                         while ($purchase_row = $result_transaction->fetch_assoc()) {
                             if ($purchase_row['is_order'] == 1) {
                                 echo '<tr>';
-                                echo '<td>' . $purchase_row['payment_date'] . '</td>';
-                                echo '<td>' . $purchase_row['product_id'] . '</td>';
+                                // echo '<td>' . $purchase_row['payment_date'] . '</td>';
+                                // echo '<td>' . $purchase_row['product_id'] . '</td>';
+                                // echo '<td>' . $purchase_row['product_id'] . '</td>';
+                                $sql_product = "SELECT product_name FROM tbl_product WHERE product_id = ?";
+                                $stmt_product = $conn->prepare($sql_product);
+                                $stmt_product->bind_param("i", $purchase_row['product_id']);
+                                $stmt_product->execute();
+                                $result_product = $stmt_product->get_result();
+
+                                if ($result_product->num_rows > 0) {
+                                    $product_row = $result_product->fetch_assoc();
+                                    echo '<td>' . $product_row['product_name'] . '</td>';
+                                }
                                 echo '<td>' . $purchase_row['quantity'] . '</td>';
                                 echo '<td>' . $purchase_row['unit_price'] . '</td>';
                                 echo '<td>' . $purchase_row['total_amount'] . '</td>';
@@ -359,12 +373,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_his_payment']) 
                                 echo '</form>';
                                 echo '</td>';
                                 echo '</tr>';
+
+                                // echo '<td>';
+                                // echo '<form form method="post" action="order_details.php">';
+                                // echo '<input type="hidden" name="order_id" value="' . $purchase_row['order_id'] . '">';
+                                // echo '<button type="submit" name="order_details" class="btn btn-delete">Chi tiết</button>';
+                                // echo '</form>';
+                                // echo '</td>';
                                 $total_all_amounts += $purchase_row['total_amount'];
                             }
                         }
                         echo '</table>';
                         echo '</div>';
-                        echo '<div class="total-amount">Tổng số tiền: ' . number_format($total_all_amounts, 2) . ' VND</div>';
+                        echo '<div class="total-amount">';
+                        echo '<td>';
+                        echo '<form form method="post" action="order_details.php">';
+                        echo '<input type="hidden" name="order_id" value="' . $_SESSION['order_id'] . '">';
+                        echo '<button type="submit" name="order_details" class="btn btn-secondary">Xem chi tiết đơn hàng</button>';
+                        echo '</form>';
+                        echo '</td>';
+                        echo 'Tổng số tiền: ' . number_format($total_all_amounts, 2) . ' VND</div>';
                     }
                 } else {
                     // echo '<p>Không có thông tin lịch sử đơn hàng.</p>';
@@ -430,7 +458,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_his_payment']) 
             <form method="post" action="payment_process.php" style="margin-top:10px;">
                 <input type="hidden" name="customer_id" value="<?php echo $customer_id; ?>">
                 <input type="hidden" name="total_amount" value="<?php echo $total_all_amounts; ?>">
-                <!-- <input type="hidden" name="user_id" value="<?php //echo $_SESSION['user_id']; ?>"> -->
+                <!-- <input type="hidden" name="user_id" value="<?php //echo $_SESSION['user_id']; 
+                                                                ?>"> -->
                 <a href=""><button type="submit" name="pay" class="btn">Thanh toán</button></a>
             </form>
             <form method="post" action="" style="margin-top:10px;">

@@ -17,6 +17,7 @@ include 'db.php';
 
 // Mở kết nối đến cơ sở dữ liệu
 $conn = open_database();
+$_SESSION['message'] = '';
 
 // Lấy thông tin về nhân viên cần xóa từ yêu cầu
 if (isset($_GET['username'])) {
@@ -39,14 +40,18 @@ if (isset($_GET['username'])) {
 
     // Nếu xóa thành công ở cả hai bảng, chuyển hướng người dùng trở lại trang quản lý nhân viên
     if ($success_delete_employee_info || $success_delete_employee) {
+        $_SESSION['message'] = "Xóa nhân viên thành công.";
+        $_SESSION['message_type'] = "success";
         header("Location: admin_manage_employee.php");
         exit();
     } else {
-        echo "Xóa nhân viên không thành công.";
+        $_SESSION['message'] = "Xóa nhân viên không thành công.";
+        $_SESSION['message_type'] = "error";
     }
 } else {
     // Nếu không có thông tin về nhân viên trong yêu cầu, hiển thị thông báo lỗi
-    echo "Không có thông tin nhân viên để xóa.";
+    $_SESSION['message'] = "Không có thông tin nhân viên để xóa.";
+    $_SESSION['message_type'] = "error";
 }
 
 ?>

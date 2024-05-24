@@ -7,14 +7,16 @@ include "class/product_class.php";
 
 <?php
 $product = new product;
+$message = "";
+
 if ($_SERVER["REQUEST_METHOD"] === 'POST') {
-
-    // var_dump($_POST, $_FILES);
-    // echo '<pre>';
-    // print_r($_FILES['product_img_desc']['name']);
-    // echo '</pre>';
-
     $insert_product = $product->insert_product($_POST, $_FILES);
+
+    if ($insert_product) {
+        $message = "Thêm sản phẩm thành công!";
+    } else {
+        $message = "Thêm sản phẩm thất bại!";
+    }
 }
 ?>
 
@@ -23,6 +25,12 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
 <div class="admin-content-right">
     <div class="admin-content-right-product-add">
         <h1>Quản lý sản phẩm</h1>
+        <?php
+        if (!empty($message)) {
+            // echo "<p class = 'notification'>$message</p>";
+            echo "<script>alert('$message');</script>";
+        }
+        ?>
         <form action="" method="post" enctype="multipart/form-data">
             <label for="">Nhập tên sản phẩm <span style="color: red;">*</span></label>
             <input required type="text" name="product_name" placeholder="">

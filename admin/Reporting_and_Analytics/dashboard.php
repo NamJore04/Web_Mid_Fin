@@ -15,14 +15,17 @@
 
         .container {
             max-width: 800px;
-            margin: 0 auto;
+            margin: 20px auto;
             padding: 20px;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
         }
 
-        h1 {
+
+
+        h1,
+        h2 {
             text-align: center;
             color: #333;
         }
@@ -46,7 +49,8 @@
             border-radius: 5px;
         }
 
-        input[type="submit"] {
+        input[type="submit"],
+        button[type="submit"] {
             padding: 8px 16px;
             background-color: #007bff;
             color: #fff;
@@ -54,6 +58,8 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
+
 
         ul {
             padding: 0;
@@ -66,9 +72,6 @@
             padding: 15px;
             margin-bottom: 10px;
             border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
         }
 
         li:hover {
@@ -76,8 +79,7 @@
         }
 
         li form {
-            display: flex;
-            align-items: center;
+            display: inline;
         }
 
         li button {
@@ -87,6 +89,25 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .btn-home {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn-home button {
+            padding: 8px 16px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        body > div > button {
+            background-color: #1fa1b8;
         }
     </style>
 </head>
@@ -223,7 +244,6 @@
             }
         }
 
-        $conn->close();
         ?>
 
         <!-- Hiển thị thông tin tổng quan -->
@@ -231,26 +251,46 @@
         <p>Tổng số tiền: <?php echo $total_revenue; ?></p>
         <p>Số lượng đơn hàng: <?php echo $total_orders; ?></p>
         <p>Số lượng sản phẩm: <?php echo $total_products; ?></p>
-        <button onclick="window.location.href = '../index.php';" style="padding: 8px 16px; background-color: #dc3545; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Return to home</button>
+        <button onclick="window.location.href = '../index.php';" style="padding: 8px 16px; background-color: #1fa1b8; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Return to home</button>
 
         <!-- Danh sách các đơn hàng -->
         <h2>Danh sách các đơn hàng</h2>
         <ul>
             <?php
             if (!empty($order_list)) {
-                foreach ($order_list as $order) { ?>
-                    <li>
-                        <span><?php echo $order['order_date']; ?> - ID: <?php echo $order['order_id']; ?></span>
-                        <form action="his_payment_detail.php" method="post">
-                            <input type="hidden" name="order_id" value="<?php echo $order['order_id']; ?>">
-                            <button type="submit" name="his_payment_detail">Xem chi tiết</button>
-                        </form>
+                foreach ($order_list as $order) {
+                    ?>
+                    <li style="background-color: #f0f0f0; padding: 15px; margin-bottom: 10px;">
+                        <span><?php echo $order['order_date']; ?> - ID: <?php echo $order['order_id']; ?>
+                            <?php
+                            // Tính tổng tiền của đơn hàng dựa vào order_id
+                            $order_id = $order['order_id'];
+                            $total_amount = 0;
+
+                            // Truy vấn SQL để tính tổng tiền
+                            $total_amount_query = "SELECT SUM(total_amount) AS total_amount FROM transaction WHERE order_id = '$order_id'";
+                            $total_amount_result = $conn->query($total_amount_query);
+
+                            // Kiểm tra kết quả truy vấn
+                            if ($total_amount_result && $total_amount_result->num_rows > 0) {
+                                $total_amount_row = $total_amount_result->fetch_assoc();
+                                $total_amount = $total_amount_row['total_amount'];
+                            }
+
+                            echo 'Tổng tiền: ' . $total_amount . '-';
+                            ?>
+                            <form action="his_payment_detail.php" method="post" style="display: inline;">
+                                <input type="hidden" name="order_id" value="<?php echo $order['order_id']; ?>">
+                                <button type="submit" name="his_payment_detail" style="padding: 8px 16px; background-color: #28a745; display: block; text-align: center; margin-top: 20px;">Xem chi tiết</button>
+                            </form>
+                        </span>
                     </li>
-            <?php
+                    <?php
                 }
             } else {
-                echo '<li>Không có đơn hàng nào</li>';
-            } ?>
+                echo '<li style="background-color: #f0f0f0; padding: 15px; margin-bottom: 10px;">Không có đơn hàng nào</li>';
+            }
+            ?>
         </ul>
     </div>
 

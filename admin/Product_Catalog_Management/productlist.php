@@ -31,6 +31,15 @@ endif;
 
 ?>
 <div class="admin-content-right">
+    <?php
+    // if (isset($_SESSION['message'])) {
+    //     echo "<div class='alert {$_SESSION['message_type']}'>";
+    //     echo $_SESSION['message'];
+    //     echo "</div>";
+    //     unset($_SESSION['message']);
+    //     unset($_SESSION['message_type']);
+    // }
+    ?>
     <div class="admin-content-right-cartegory-list">
         <h1>Danh sách sản phẩm</h1>
         <table style="width:100%; text-align: center;">

@@ -170,6 +170,15 @@ if ($result->num_rows > 0) {
 <body>
     <div class="container">
         <h1>User Management</h1>
+        <?php if (isset($_SESSION['message'])) : ?>
+            <div class="alert <?php echo $_SESSION['message_type'] == 'success' ? 'alert-success' : 'alert-error'; ?>">
+                <?php
+                echo $_SESSION['message'];
+                unset($_SESSION['message']);
+                unset($_SESSION['message_type']);
+                ?>
+            </div>
+        <?php endif; ?>
         <div class="row">
             <div class="col-md-12">
                 <h2>Staff List</h2>
@@ -206,7 +215,8 @@ if ($result->num_rows > 0) {
                                 <td>
                                     <a href="resend_login_email.php?username=<?php echo $employee['username']; ?>" class="btn btn-info">Resend Login Email</a>
 
-                                    <!-- <a href="view_sales_info.php?username=<?php echo $employee['username']; ?>" class="btn btn-primary">View Sales Info</a> -->
+                                    <!-- <a href="view_sales_info.php?username=<?php //echo $employee['username']; 
+                                                                                ?>" class="btn btn-primary">View Sales Info</a> -->
                                 </td>
                                 <td>
                                     <?php if ($employee['locked'] == 1) : ?>
@@ -220,7 +230,12 @@ if ($result->num_rows > 0) {
 
                                 </td>
                                 <td>
-                                    <a href="delete_employee.php?username=<?php echo $employee['username']; ?>" class="btn btn-danger">Xóa</a>
+                                    <!-- <a href="delete_employee.php?username=<?php echo $employee['username']; ?>" class="btn btn-danger">Xóa</a> -->
+                                    <?php if ($employee['activated'] == 0) : ?>
+                                        <a href="delete_employee.php?username=<?php echo $employee['username']; ?>" class="btn btn-danger">Xóa</a>
+                                    <?php else : ?>
+                                        <span class="btn btn-secondary disabled">Xóa</span>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

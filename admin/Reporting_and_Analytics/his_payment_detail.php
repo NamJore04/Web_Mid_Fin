@@ -108,12 +108,11 @@
                 }
                 echo '</table>';
                 echo '<form action="dashboard.php">';
-                echo '<button  onclick="window.location.href = "dashboard.php";type="submit" style="display: flex;margin: auto;" class="btn btn-delete">Về dash board</button>';
-
+                echo '<button onclick="window.location.href = "dashboard.php"; type="submit" style="display: flex;margin: auto; background-color: #1fa1b8;" class="btn">Về dash board</button>';
                 echo '</form>';
                 echo '</div>';
             } else {
-                echo '<p>Không có lịch sử mua hàng.</p>';
+                echo '<p class="no-record">Không có lịch sử mua hàng.</p>';
             }
         }
 
