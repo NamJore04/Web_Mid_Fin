@@ -1,6 +1,6 @@
 # Dự án cuối kỳ của nhóm 21 và nhóm 32
 
-Dự án này cung cấp một hệ thống quản lý cửa hàng bao gồm các chức năng quản lý nhân viên, quản lý sản phẩm, quản lý khách hàng, quản lý đơn hàng và báo cáo thống kê. link GitHub: https://github.com/NamJore04/Web_Mid_Fin.git (branch: test).
+Dự án này cung cấp một hệ thống quản lý cửa hàng bao gồm các chức năng quản lý nhân viên, quản lý sản phẩm, quản lý khách hàng, quản lý đơn hàng và báo cáo thống kê. link GitHub: https://github.com/NamJore04/Pos_Computer_Web_Using_PHP.git (branch: main).
 
 
 ## Cấu trúc thư mục
